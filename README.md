@@ -17,8 +17,8 @@
      - 内容：联邦推荐系统的定义，面临的挑战，常见的通信结构，隐私保护的方法，常见的攻击方式和防卫方法，异质性 (heterogeneity)，减少通信消耗的方法，联邦推荐系统的应用，公共的Benchmark Datasets和未来的研究方向。
 
 2. [A Survey of Recommendation Systems: Recommendation Models, Techniques, and Application Fields (2022)](https://www.mdpi.com/2079-9292/11/1/141)
-   - 推荐系统的入门综述
-     - 内容：介绍了常见的推荐系统model，overall flow of recommendation models and recommendation techniques
+   - 推荐系统的入门综述（适合推荐系统的零基础小白，如果对推荐系统有一定的了解，可以跳过这一篇文章。）
+     - 内容：全面讲述了推荐技术，应用场景和未来方向。
 
 
 
