@@ -8,9 +8,11 @@
 
 1. 智能之道（每日推送arxiv上新发表的联邦学习和推荐系统的相关论文）
 2. 机器学习与推荐算法（每周推送推荐系统的研究进展）
-3. 智荐阁
+3. 智荐阁（会推送推荐系统相关文章）
 
 ## 论文阅读
+
+### Survey
 
 1. [A Survey on Federated Recommendation Systems (2025)](https://ieeexplore.ieee.org/abstract/document/10423793)
    - 联邦推荐系统的入门综述，全面讲述了联邦推荐系统。
@@ -18,9 +20,19 @@
 2. [A Survey of Recommendation Systems: Recommendation Models, Techniques, and Application Fields (2022)](https://www.mdpi.com/2079-9292/11/1/141)
    - 推荐系统的入门综述（适合推荐系统的零基础小白，如果对推荐系统有一定的了解，可以跳过这一篇文章。）
      - 内容：全面讲述了推荐技术，应用场景和未来方向。
-
 3. [A Survey on Large Language Models for Recommendation (2024)](https://arxiv.org/pdf/2305.19860)
    - 讲述了LLMs与Recommendation System结合（LLM4Rec）的相关技术和现有工作，重点是利用LLMs强大的Zero-shot/Few-shot 能力，并且也说明了LLM4Rec的挑战与困难
+
+4. [When Foundation Model Meets Federated Learning: Motivations, Challenges, and Future Directions (2024)](https://arxiv.org/pdf/2306.15546)
+   - 讲述了为什么要将FL技术和FM结合起来？FL技术可以帮助FM解决什么问题？未来的研究方向？
+
+
+### 具体的联邦推荐系统的算法
+
+1. [Dual personalization on federated recommendation (2023)](https://arxiv.org/pdf/2301.08143)
+2. [GPFedRec: Graph-Guided Personalization for Federated Recommendation (2024)](https://arxiv.org/pdf/2305.07866)
+3. [Federated Adaptation for Foundation Model-based Recommendations (2024)](https://arxiv.org/pdf/2405.04840)
+4. [When Federated Recommendation Meets Cold-Start Problem: Separating Item Attributes and User Interactions (2024)](https://arxiv.org/pdf/2305.12650)
 
 
 
