@@ -4,6 +4,10 @@
 
 
 
+## 从这里开始
+
+这个记录我从零开始学习入门联邦推荐系统的过程，如果有任何问题或者交友学术合作等欢迎大家联系我：[个人主页](https://liweidengdavid.github.io/)，[邮箱](mailto:liweidengdavid@gmail.com)
+
 ## 建议关注的公众号
 
 1. 智能之道（每日推送arxiv上新发表的联邦学习和推荐系统的相关论文）
@@ -21,10 +25,12 @@
    - 推荐系统的入门综述（适合推荐系统的零基础小白，如果对推荐系统有一定的了解，可以跳过这一篇文章。）
      - 内容：全面讲述了推荐技术，应用场景和未来方向。
 3. [A Survey on Large Language Models for Recommendation (2024)](https://arxiv.org/pdf/2305.19860)
-   - 讲述了LLMs与Recommendation System结合（LLM4Rec）的相关技术和现有工作，重点是利用LLMs强大的Zero-shot/Few-shot 能力，并且也说明了LLM4Rec的挑战与困难
+   - LLM在Recommendation System（RS）的综述
+     - 内容：讲述了LLMs与RS结合（LLM4Rec）的相关技术和现有工作重点是利用LLMs强大的Zero-shot/Few-shot 能力，并且也说明了LLM4Rec的挑战与困难
 
 4. [When Foundation Model Meets Federated Learning: Motivations, Challenges, and Future Directions (2024)](https://arxiv.org/pdf/2306.15546)
-   - 讲述了为什么要将FL技术和FM结合起来？FL技术可以帮助FM解决什么问题？未来的研究方向？
+   - 联邦学习（Federated Learning，）与基础模型（Foundation Model，FM）的综述
+     - 内容：讲述了为什么要将FL技术和FM结合起来？FL技术可以帮助FM解决什么问题？FM解决FL中的什么问题？将FL和FM结合起来的挑战？未来的研究方向？
 
 
 ### 具体的联邦推荐系统的算法
