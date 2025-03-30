@@ -40,18 +40,20 @@
 
 1. [FedAvg: Communication-Efficient Learning of Deep Networks from Decentralized Data(2016)](https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf)
    - ***Contribution***：这篇文章是联邦学习的**开山鼻祖**，其开创了联邦学习这个领域，证明了联邦学习的有效性。***Implementation***：本文使用的方法很简单，就是根据每一个客户端的数据量的多少来作为对应的权重，进而去聚合来自不同客户端的模型，进而在server端得到了一个global model，最终就是每一个client都使用这个global model。
-
 2. [Secure Federated Matrix Factorization(2020)](https://arxiv.org/pdf/1906.05108)
-
-   - 本文提出了一个名为FedMF (Federated Matrix Factorization)的模型。***Contribution***：本文证明了如果server能够得到同一个user连续两轮的上传的item梯度，那么server就可以反推得到该user对于该item的评分。***Motivation：*** 因为本文证明了之前的联邦学习方法没办法完全保证用户隐私，仍然有机会泄露用户的隐私信息。***Implementation***：因此采用了homomorphic encryption同态加密算法（公钥私钥）对上传的梯度进行加密，使得能够保护用户的rating信息不泄露。
+   - 本文提出了一个名为FedMF (Federated Matrix Factorization)的模型。***Contribution***：本文证明了如果server能够得到同一个user连续两轮的上传的item梯度，那么server就可以反推得到该user对于该item的评分。***Motivation：*** 因为本文证明了之前的联邦学习方法没办法完全保证用户隐私，仍然有机会泄露用户的隐私信息。***Implementation：*** 因此采用了homomorphic encryption同态加密算法（公钥私钥）对上传的梯度进行加密，使得能够保护用户的rating信息不泄露。
 
    - ***Tips：*** 由于FedMF采用了异步（asynchronous）更新的策略（一旦server收到client上传的信息就更新全局参数），因此其不需要类似FedAvg这样的聚合Function，其聚合过程在optimizer中完成。***Advances：***可以解决部分client中途退出的问题。***Problems：*** Staleness（陈旧性）problems（可能收到的更新信息是陈旧的，因为部分的client已经更新了多次，部分的client才更新一次）影响模型的收敛。
-
 3. [Federated Neural Collaborative Filtering(2021)](https://arxiv.org/pdf/2106.04405v1)
    - 本文提出了一个名称为FedNCF（Federated Neural Collaborative Filtering）的Framework。***Contribution***：将SecAvg protocol引入到FedAvg中解决传统存在的隐私泄露风险的问题，提出了名称为MF-SecAvg的聚合方法。***Motivation：***（1）之前的联邦学习方法只假设了Server是honest-but-curious，但是没有考虑Client是honest-but-curious；（2）之前的MF只能刻画user-item的线性关系，复杂的关系没办法刻画；（3）FedAvg运用到MF中会导致模型性能下降。（因为当更新item embedding时候，只有和当前client交互过的item的embedding会发生改变，未交互的是不会有改变，直接运用FedAvg会导致模型收敛变慢，效果差）
-
 4. [FedGNN: Federated Graph Neural Network for Privacy-Preserving Recommendation(2021)](https://arxiv.org/pdf/2102.04925)
    - 本文提出了一个名称为FedGNN的模型。***Contribution：***（1）提出了一种在保护用户隐私前提下的user-item graph expansion方式，进而能够构建user-item的高阶关联信息。（2）同时提出了将LDP（local differential privacy）和pseudo item采样技术结合起来保护与user交互过的item。***Motivation：***（1）Federated Learning将client数据集独立存储，但是现有的工作证明挖掘user-item高阶信息是十分重要的，而独立存储只能包含user-item一阶信息，那么如何在保证user隐私的前提下挖掘高阶信息是本文想解决的问题。（2）以往的方法（如FedAvg等FL方法）只能保护user-item rating信息，server可以通过item的非零梯度推断出与该user交互的item是什么。 For（1）会对item id和user id进行同态加密，加密只有方式只有中央server知道。这里会引入一个第三方服务器（可以是不可信的），其只需要做一件事，就是对加密后的item id进行match，如果match，就交换加密后的user id，两个user就匹配成为了邻居；For（2）FedGNN使用了LDP和pseudo item采样技术结合起来保护与user交互过的item。
+
+#### Heterogeneous local models
+
+1. [HeteroFL: Computation and communication efficient federated learning for heterogeneous clients(2021)](https://arxiv.org/pdf/2010.01264)
+   - 本文提出了名称为Heterogeneous Federated Learning (HeteroFL)模型，主要是为了解决不同的client具有不同的计算和通信能力。***Contribution：*** 首次依据不同Client的计算能力分配不同的local model（但是inference用的是同一个global model）。***Motivation：*** 因为现在IoT设备兴起，不同的client有着十分不同的计算能力，因此如果所有的设备使用一个模型，存在communication efficiency, system heterogeneity等问题。***Implementation：*** 因此本文通过server使用一个大模型，不同的client根据其计算能力分配不同的模型（通过通道数减少来实现不同的小模型，小模型是大模型的subset，部分参数）。最终聚合的时候，小模型影响大模型中小模型对应的参数。
+   - ***Tips：*** 本文采用Dropout来scaler不同模型的数量级差异，还提出static Batch Normaliztion (sBN)来解决BN存在的track running estimates容易导致隐私泄露等问题。
 
 #### Personalized Federated Recommendation
 
@@ -83,8 +85,11 @@
 
 #####  Foundation Model-based Recommendations
 
-1. [Federated Adaptation for Foundation Model-based Recommendations (2024)](https://arxiv.org/pdf/2405.04840)
-   - 本文提出了一个Federated recommendation with Personalized Adapter (FedPA)的模型。***Contribution：*** 其是在联邦学习设置下第一个将推荐系统和Foundation Model结合起来的模型。***Motivation：*** 由于Foundation Model (FM) 是在真实世界的大数据集中pre-train来的，因此其内部包含有common knowledge，这个对于Recommendation System来说是重要的。但是将FM与推荐系统结合起来，特别是在联邦学习的设置下，具有以下两个**Challenges**：（1）client端计算资源和存储空间有限，因此常见的FM没办法在Client端部署。（2）如何将FM中的common knowledge和personalization knowledge合理融合起来。***Implementation***：For Challengs (1) 本文采用知识蒸馏knowledge distillation (KD)方法将FM蒸馏出一个小模型进行使得client端也能够运行和存储对应的模型。For Challenges (2) 本文采用Adaptive Gate Learning Mechanism来自适应的得到Common Knowledge and personalization Knowledge（User-Level Personalization and User-Group-Level Personalization（具体采用类似LoRA方式的Personalized Adapter））的权重。
+1. [Federated Recommendation via Hybrid Retrieval Augmented Generation (2024)](https://arxiv.org/pdf/2403.04256)
+   - 本文提出了一个名称为GPTFedRec的联邦推荐系统模型。***Contribution：*** 本文是第一个在联邦推荐系统中使用RAG和LLMs的方法。***Motivation：*** 因为传统的方法无法很好的解决cold-start问题，并且LLMs存在幻觉和需要大量的计算时间，因此本文希望能够在利用LLMs的强大的zero-shot和预训练的知识的能力来解决cold-start问题，同时希望缓解LLMs存在幻觉的问题。***Implementation：*** 分成两个阶段，阶段1：采用ID-based Retriever和text-baesd Retriever来生成item candidates。阶段2：根据阶段1生成的candidates送入LLMs让其进行re-rank。这么做可以减少LLMs的幻觉的问题，同时可以不用对LLMs进行finetune减少很多的计算资源消耗。同时还能利用LLMs强大的zero-shot和对现实世界的理解。
+
+2. [Federated Adaptation for Foundation Model-based Recommendations (2024)](https://arxiv.org/pdf/2405.04840)
+   - 本文提出了一个Federated recommendation with Personalized Adapter (FedPA)的模型。***Contribution：*** 其是在联邦学习设置下第一个将推荐系统和Foundation Model结合起来的模型。***Motivation：*** 由于Foundation Model (FM) 是在真实世界的大数据集中pre-train来的，因此其内部包含有common knowledge，这个对于Recommendation System来说是重要的。但是将FM与推荐系统结合起来，特别是在联邦学习的设置下，具有以下两个**Challenges**：（1）client端计算资源和存储空间有限，因此常见的FM没办法在Client端部署。（2）如何将FM中的common knowledge和personalization knowledge合理融合起来。***Implementation：*** For Challengs (1) 本文采用知识蒸馏knowledge distillation (KD)方法将FM蒸馏出一个小模型进行使得client端也能够运行和存储对应的模型。For Challenges (2) 本文采用Adaptive Gate Learning Mechanism来自适应的得到Common Knowledge and personalization Knowledge（User-Level Personalization and User-Group-Level Personalization（具体采用类似LoRA方式的Personalized Adapter））的权重。
 
 ## 相关的联邦学习算法
 
