@@ -78,7 +78,6 @@
 ##### Cold-start Problems
 
 1. [When Federated Recommendation Meets Cold-Start Problem: Separating Item Attributes and User Interactions (2024)](https://arxiv.org/pdf/2305.12650)
-
    - 本文提出了一个名称为Item-aligned Federated aggregation framework for cold-start Recommendation (IFedRec)的模型。***Contribution:***其是在联邦学习的设置下第一个处理cold-start recommendation的模型，其通过不增加数据泄露风险的方式引入item attribute信息来应对cold-start问题。***Motivation：***现有的FedRec没有关注冷启动问题，但是这个是一个实实在在存在的问题，而且是推荐系统中的难点。***Implementation***：其分成两个阶段：（1）Learning on the Warm Items；（2）Inference on the Cold Items。（1）*Stage1：*通过在server端（item attribute一般也存储在server端，因此不会增加数据泄露的风险）引入一个Meta attribute Network，根据item属性信息来得到对应的item attribute embedding（这个在center推荐系统中被证明是一个解决cold-start问题的好方法）。其还在server和client端各自引入了一个item representation alignment mechanism来训练Meta attribute Network和为client端的item embedding补充来自item attribute的信息。（2）*Stage2：*当遇到Cold-start items时，首先server的Meta attribute Network计算得到item attribute embedding，每一个client在下载到本地上，将其作为Item embedding，与user embedding一起送入到Rating Prediction中得到预测分数，进行推荐。
 
    - ***Tips：***其这里还使用了**alternative update method**的小训练Trick，使得模型在cold-start中有着不错的表现。
@@ -87,9 +86,11 @@
 
 1. [Federated Recommendation via Hybrid Retrieval Augmented Generation (2024)](https://arxiv.org/pdf/2403.04256)
    - 本文提出了一个名称为GPTFedRec的联邦推荐系统模型。***Contribution：*** 本文是第一个在联邦推荐系统中使用RAG和LLMs的方法。***Motivation：*** 因为传统的方法无法很好的解决cold-start问题，并且LLMs存在幻觉和需要大量的计算时间，因此本文希望能够在利用LLMs的强大的zero-shot和预训练的知识的能力来解决cold-start问题，同时希望缓解LLMs存在幻觉的问题。***Implementation：*** 分成两个阶段，阶段1：采用ID-based Retriever和text-baesd Retriever来生成item candidates。阶段2：根据阶段1生成的candidates送入LLMs让其进行re-rank。这么做可以减少LLMs的幻觉的问题，同时可以不用对LLMs进行finetune减少很多的计算资源消耗。同时还能利用LLMs强大的zero-shot和对现实世界的理解。
-
 2. [Federated Adaptation for Foundation Model-based Recommendations (2024)](https://arxiv.org/pdf/2405.04840)
    - 本文提出了一个Federated recommendation with Personalized Adapter (FedPA)的模型。***Contribution：*** 其是在联邦学习设置下第一个将推荐系统和Foundation Model结合起来的模型。***Motivation：*** 由于Foundation Model (FM) 是在真实世界的大数据集中pre-train来的，因此其内部包含有common knowledge，这个对于Recommendation System来说是重要的。但是将FM与推荐系统结合起来，特别是在联邦学习的设置下，具有以下两个**Challenges**：（1）client端计算资源和存储空间有限，因此常见的FM没办法在Client端部署。（2）如何将FM中的common knowledge和personalization knowledge合理融合起来。***Implementation：*** For Challengs (1) 本文采用知识蒸馏knowledge distillation (KD)方法将FM蒸馏出一个小模型进行使得client端也能够运行和存储对应的模型。For Challenges (2) 本文采用Adaptive Gate Learning Mechanism来自适应的得到Common Knowledge and personalization Knowledge（User-Level Personalization and User-Group-Level Personalization（具体采用类似LoRA方式的Personalized Adapter））的权重。
+
+3. [Personalized Item Representations in Federated Multimodal Recommendation (2024)](https://arxiv.org/pdf/2410.08478)
+   - 本文提出了一个FedMR (Federated Multimodal Recommendation system)模型。***Contribution：*** 其在联邦学习的设置下将多模态和ID-based推荐系统进行无缝融合，同时其提出了Mixing Feature Fusion Module自适应的更改fusion策略。***Motivation：*** 主要在于现有的推荐系统，特别是在联邦学习设置下的推荐系统，大部分都关注与捕捉item ID-based feature，而忽略了item丰富的多模态信息，而item丰富的多模态信息可以帮助推荐系统处理cold-starts问题，泛化性问题等。***Implementation：*** 
 
 ## 相关的联邦学习算法
 
