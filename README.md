@@ -55,6 +55,11 @@
    - 本文提出了名称为Heterogeneous Federated Learning (HeteroFL)模型，主要是为了解决不同的client具有不同的计算和通信能力。***Contribution：*** 首次依据不同Client的计算能力分配不同的local model（但是inference用的是同一个global model）。***Motivation：*** 因为现在IoT设备兴起，不同的client有着十分不同的计算能力，因此如果所有的设备使用一个模型，存在communication efficiency, system heterogeneity等问题。***Implementation：*** 因此本文通过server使用一个大模型，不同的client根据其计算能力分配不同的模型（通过通道数减少来实现不同的小模型，小模型是大模型的subset，部分参数）。最终聚合的时候，小模型影响大模型中小模型对应的参数。
    - ***Tips：*** 本文采用Dropout来scaler不同模型的数量级差异，还提出static Batch Normaliztion (sBN)来解决BN存在的track running estimates容易导致隐私泄露等问题。
 
+#### Cross-domain Sequential Recommendation
+
+1. [FedDCSR: Federated Cross-domain Sequential Recommendation via Disentangled Representation Learning (2024)](https://epubs.siam.org/doi/pdf/10.1137/1.9781611978032.62)
+   - 本文提出了名称为FedDCSR的模型，一个新的联邦学习设定下的跨域顺序推荐框架。***Motivation：*** 现有的跨域序列推荐系统模型大部分是集中式的，其容易带来隐私泄露等问题。而现有的联邦跨域推荐系列模型没有考虑序列数据的异质性和其是sequential data的属性。***Contribution：*** 因此本文提出了FedDCSR模型来解决现有模型存在的问题。***Implementation：*** 具体的，提出了SRD，inter-intra domain sequence representation disentanglement method，和intra domain contrastive infomax strategy CIM方法。（1）其中SRD是通过设计一系列的损失函数：例如domain-shared representations和domain-exclusive representations应该要不同，聚合不同域的domain-shared representations应该和每一个域的domain-shared representations相似等；（2）intra domain contrastive infomax strategy CIM，是通过将输入Sequential Data进行随机打乱得到对应的增强后的数据，然后通过对比loss（构建正负对的方法）。
+
 #### Personalized Federated Recommendation
 
 1. [Personalized Federated Learning: A Meta-Learning Approach (2020)](https://arxiv.org/pdf/2002.07948)
@@ -78,9 +83,10 @@
 ##### Cold-start Problems
 
 1. [When Federated Recommendation Meets Cold-Start Problem: Separating Item Attributes and User Interactions (2024)](https://arxiv.org/pdf/2305.12650)
-   - 本文提出了一个名称为Item-aligned Federated aggregation framework for cold-start Recommendation (IFedRec)的模型。***Contribution:***其是在联邦学习的设置下第一个处理cold-start recommendation的模型，其通过不增加数据泄露风险的方式引入item attribute信息来应对cold-start问题。***Motivation：***现有的FedRec没有关注冷启动问题，但是这个是一个实实在在存在的问题，而且是推荐系统中的难点。***Implementation***：其分成两个阶段：（1）Learning on the Warm Items；（2）Inference on the Cold Items。（1）*Stage1：*通过在server端（item attribute一般也存储在server端，因此不会增加数据泄露的风险）引入一个Meta attribute Network，根据item属性信息来得到对应的item attribute embedding（这个在center推荐系统中被证明是一个解决cold-start问题的好方法）。其还在server和client端各自引入了一个item representation alignment mechanism来训练Meta attribute Network和为client端的item embedding补充来自item attribute的信息。（2）*Stage2：*当遇到Cold-start items时，首先server的Meta attribute Network计算得到item attribute embedding，每一个client在下载到本地上，将其作为Item embedding，与user embedding一起送入到Rating Prediction中得到预测分数，进行推荐。
 
-   - ***Tips：***其这里还使用了**alternative update method**的小训练Trick，使得模型在cold-start中有着不错的表现。
+- 本文提出了一个名称为Item-aligned Federated aggregation framework for cold-start Recommendation (IFedRec)的模型。***Contribution:***其是在联邦学习的设置下第一个处理cold-start recommendation的模型，其通过不增加数据泄露风险的方式引入item attribute信息来应对cold-start问题。***Motivation：***现有的FedRec没有关注冷启动问题，但是这个是一个实实在在存在的问题，而且是推荐系统中的难点。***Implementation***：其分成两个阶段：（1）Learning on the Warm Items；（2）Inference on the Cold Items。（1）*Stage1：*通过在server端（item attribute一般也存储在server端，因此不会增加数据泄露的风险）引入一个Meta attribute Network，根据item属性信息来得到对应的item attribute embedding（这个在center推荐系统中被证明是一个解决cold-start问题的好方法）。其还在server和client端各自引入了一个item representation alignment mechanism来训练Meta attribute Network和为client端的item embedding补充来自item attribute的信息。（2）*Stage2：*当遇到Cold-start items时，首先server的Meta attribute Network计算得到item attribute embedding，每一个client在下载到本地上，将其作为Item embedding，与user embedding一起送入到Rating Prediction中得到预测分数，进行推荐。
+
+- ***Tips：***其这里还使用了**alternative update method**的小训练Trick，使得模型在cold-start中有着不错的表现。
 
 #####  Foundation Model-based Recommendations
 
@@ -90,7 +96,7 @@
    - 本文提出了一个Federated recommendation with Personalized Adapter (FedPA)的模型。***Contribution：*** 其是在联邦学习设置下第一个将推荐系统和Foundation Model结合起来的模型。***Motivation：*** 由于Foundation Model (FM) 是在真实世界的大数据集中pre-train来的，因此其内部包含有common knowledge，这个对于Recommendation System来说是重要的。但是将FM与推荐系统结合起来，特别是在联邦学习的设置下，具有以下两个**Challenges**：（1）client端计算资源和存储空间有限，因此常见的FM没办法在Client端部署。（2）如何将FM中的common knowledge和personalization knowledge合理融合起来。***Implementation：*** For Challengs (1) 本文采用知识蒸馏knowledge distillation (KD)方法将FM蒸馏出一个小模型进行使得client端也能够运行和存储对应的模型。For Challenges (2) 本文采用Adaptive Gate Learning Mechanism来自适应的得到Common Knowledge and personalization Knowledge（User-Level Personalization and User-Group-Level Personalization（具体采用类似LoRA方式的Personalized Adapter））的权重。
 
 3. [Personalized Item Representations in Federated Multimodal Recommendation (2024)](https://arxiv.org/pdf/2410.08478)
-   - 本文提出了一个FedMR (Federated Multimodal Recommendation system)模型。***Contribution：*** 其在联邦学习的设置下将多模态和ID-based推荐系统进行无缝融合，同时其提出了Mixing Feature Fusion Module自适应的更改fusion策略。***Motivation：*** 主要在于现有的推荐系统，特别是在联邦学习设置下的推荐系统，大部分都关注与捕捉item ID-based feature，而忽略了item丰富的多模态信息，而item丰富的多模态信息可以帮助推荐系统处理cold-starts问题，泛化性问题等。***Implementation：*** 
+   - 本文提出了一个FedMR (Federated Multimodal Recommendation system)模型。***Contribution：*** 其在联邦学习的设置下将多模态和ID-based推荐系统进行无缝融合，同时其提出了Mixing Feature Fusion Module自适应的更改fusion策略。***Motivation：*** 主要在于现有的推荐系统，特别是在联邦学习设置下的推荐系统，大部分都关注与捕捉item ID-based feature，而忽略了item丰富的多模态信息，而item丰富的多模态信息可以帮助推荐系统处理cold-starts问题，泛化性问题等。***Implementation：*** 本质上FedMR是一个插件，其可以与现有的ID-based FedRec的模型进无缝融合，具体的其在server端设置FMs去处理得到item多模态Embedding，client在从server端进行download下来。Client端其通过设置fusion strategies（Sum，MLP and Gate）来融合多模态Embedding和ID-based Embedding。然后通过一个Router网络来根据每一个user分配动态的权重去融合通过不同fusion strategies得到的embedding，最终得到Final personalized item embedding，送入Prediction Function得到预测的结果。
 
 ## 相关的联邦学习算法
 
