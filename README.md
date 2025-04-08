@@ -29,10 +29,14 @@
 3. [A Survey on Large Language Models for Recommendation (2024)](https://arxiv.org/pdf/2305.19860)
    - LLM在Recommendation System（RS）的综述
      - 内容：讲述了LLMs与RS结合（LLM4Rec）的相关技术和现有工作重点是利用LLMs强大的Zero-shot/Few-shot 能力，并且也说明了LLM4Rec的挑战与困难
-
 4. [When Foundation Model Meets Federated Learning: Motivations, Challenges, and Future Directions (2024)](https://arxiv.org/pdf/2306.15546)
-   - 联邦学习（Federated Learning，）与基础模型（Foundation Model，FM）的综述
+   - 联邦学习（Federated Learning，FL）与基础模型（Foundation Model，FM）的综述
      - 内容：讲述了为什么要将FL技术和FM结合起来？FL技术可以帮助FM解决什么问题？FM解决FL中的什么问题？将FL和FM结合起来的挑战？未来的研究方向？
+5. [Navigating the Future of Federated Recommendation Systems with Foundation Models(2024)](https://arxiv.org/pdf/2406.00004)
+   - 联邦推荐系统（FRS）和基础模型（FMs）的综述
+     - 内容：（1）对FRS和FMs进行了definition和taxonomy；（2）讲述了FRS现有存在的问题（Client Model Update，Communication and Global Aggregation阶段）和将FMs与FRS结合起来可以如何解决此问题；（3）将FMs集成到FRS存在的挑战和解决方法；（4）还介绍了未来的研究方向和公共数据集等内容。
+6. [Federated Foundation Models: Privacy-Preserving and Collaborative Learning for Large Models (2024)](https://arxiv.org/pdf/2305.11414)
+7. [When Large Language Models Meet Personalization: Perspectives of Challenges and Opportunities (2024)](https://doi.org/10.1007/s11280-024-01276-1)
 
 ### 联邦推荐系统的算法
 
@@ -67,18 +71,16 @@
    - 本文主要是做理论上Personalized FedAvg收敛性的证明。
 2. [Federated Social Recommendation with Graph Neural Network(2021)](https://dl.acm.org/doi/pdf/10.1145/3501815)
    - 本文提出了一个名称为FeSoG（Fedrated Social recommendation with Graph neural network），是第一个将social information纳入FedRec中的工作。 ***Contribution：***（1）第一个尝试将social information 纳入FedRec，来刻画user-user relationship；（2）采用personalized client来解决client data Non-iid的问题；（3）提出了dynamic LDP方法。***Motivation：*** 其是在FedGNN的基础上改进其两个缺点：（1）没有将Social data来刻画user间的relationship；（2）其 clients' models are not personalized。***Implementation：*** User Embedding，item embedding and model parameters都是global share的，只不过final user embedding是central user embedding，item embedding和neighbor user embedding三者通过GNN后得到final user embedding。由于不同的user对应的neighbor user和交互的item是不同的，因此是personalized的，可以更好的解决client数据Non-iid的问题。Dynamic LDP是为了解决LDP加噪无法根据梯度的数量级进行自适应调整，因此采用动态LDP算法，即噪声的高斯分布的方差与梯度的mean挂钩，因此就能根据梯度的数量级自适应的调整加噪。
-
 3. [Dual personalization on federated recommendation (2023)](https://arxiv.org/pdf/2301.08143)
    - 本文提出了名为Personalized Federated Recommendation（PFedRec）方法。***Contribution：*** item embedding和score embedding（代替user embedding）是personalization。***Motivation：*** 不同user看待item视角不同，因此item embedding应该也是personalization的。***Implementation：*** Score Function是完全personalization，不会发送到中央server中进行聚合；Item  Embedding其是会被send to server中进行聚合学习global item view，然后将其作为每一个client的个性化item embedding的init，然后在使用client私有化数据进行finetuning。
-
 4. [Federated Recommendation with Additive Personalization (2024)](https://arxiv.org/pdf/2301.09109)
    - 本文提出了名称为Federated Recommendation with Additive Personalization (FedRAP)的方法。其实际上是在PFedRec的方法基础上进行的改进。***Contribution：***  将一个item embedding分成了两个部分user-specific item embedding（save in the local client）和global item embedding（send to 中央服务器进行聚合）。***Motivation:*** 虽然不同的user看待item的视角不同（user-specific item embedding），但是也有共通的部分（global item embedding）。***Implementation：*** item embedding=user-specific item embedding+global item embedding。同时为了通信效率和表征的有效性，本文提出了两个regularization term，（1）为了保证通信效率，要求Global item embedding是稀疏的。（2）为了保证表征有效性，user-specific item embedding和global item embedding应该要尽可能不同，二者应该呈现互补的样式。
-
 5. [GPFedRec: Graph-Guided Personalization for Federated Recommendation (2024)](https://arxiv.org/pdf/2305.07866)
    - 本文提出了名称为Graph-Guided Personalization for Federated Recommendation（GPFedRec）方法。这是一种新型的聚合方式（FedAVG）的改进版本。***Contribution：*** 其提出了一种新型的聚合方式，其是基于user-relation graph来聚合。其核心点在于：如何在Federated Learning的架构下，构建user-relation graph并且不增加泄露user隐私的风险。***Motivation：*** 在集中式的推荐系统中，其他的工作已经证明将user-relation graph引入推荐系统可以提高系统的推荐正确率，但是如何在联邦学习的框架下得到user-relation graph，并且不损害user隐私。***Implementation：*** 通过对没一个client上传的item embedding进行cos相似度计算，进而得到user-relation graph。后续通过user-relation graph去引导item embedding聚合等。
-
 6. [Personalized Federated Collaborative Filtering: AVariational AutoEncoder Approach(2024)](https://arxiv.org/pdf/2408.08931)
    - 本文提出了一个新的personalized Federated Collaborative Filtering （FedCF） method, which incorporates a gating dual-encoder VAE, named FedDAE。***Contribution:*** 其提出了通过VAE去建模user item之间的复杂关系，而不是受限于user embedding and item embedding vector，进而能够捕捉更加复杂的非线性关系。***Motivation:*** 现有的大部分推荐系统模型都是基于矩阵分解的思路，由于矩阵分解思路只能捕捉模型的线性关系，无法捕捉非线性的复杂关系。虽然如今采用了Neural Collaborative Filtering (NCF)的方式来，但是仍然首先于item and user embedding vector的形式，同时现有的大部分NCF都rely on personalized item embedding，因此导致模型的泛化性能差。***Implementation***：我们通过构建dual-encoder VAE（一个用来捕捉global信息，一个用来捕捉local信息），然后通过gate网络来自适应的调节二者（global and local）的权重，同时还保证的模型的泛化性能。
+
+7. [Efficient and Robust Regularized Federated Recommendation (2024)](https://arxiv.org/pdf/2411.01540)
 
 ##### Cold-start Problems
 
@@ -94,9 +96,15 @@
    - 本文提出了一个名称为GPTFedRec的联邦推荐系统模型。***Contribution：*** 本文是第一个在联邦推荐系统中使用RAG和LLMs的方法。***Motivation：*** 因为传统的方法无法很好的解决cold-start问题，并且LLMs存在幻觉和需要大量的计算时间，因此本文希望能够在利用LLMs的强大的zero-shot和预训练的知识的能力来解决cold-start问题，同时希望缓解LLMs存在幻觉的问题。***Implementation：*** 分成两个阶段，阶段1：采用ID-based Retriever和text-baesd Retriever来生成item candidates。阶段2：根据阶段1生成的candidates送入LLMs让其进行re-rank。这么做可以减少LLMs的幻觉的问题，同时可以不用对LLMs进行finetune减少很多的计算资源消耗。同时还能利用LLMs强大的zero-shot和对现实世界的理解。
 2. [Federated Adaptation for Foundation Model-based Recommendations (2024)](https://arxiv.org/pdf/2405.04840)
    - 本文提出了一个Federated recommendation with Personalized Adapter (FedPA)的模型。***Contribution：*** 其是在联邦学习设置下第一个将推荐系统和Foundation Model结合起来的模型。***Motivation：*** 由于Foundation Model (FM) 是在真实世界的大数据集中pre-train来的，因此其内部包含有common knowledge，这个对于Recommendation System来说是重要的。但是将FM与推荐系统结合起来，特别是在联邦学习的设置下，具有以下两个**Challenges**：（1）client端计算资源和存储空间有限，因此常见的FM没办法在Client端部署。（2）如何将FM中的common knowledge和personalization knowledge合理融合起来。***Implementation：*** For Challengs (1) 本文采用知识蒸馏knowledge distillation (KD)方法将FM蒸馏出一个小模型进行使得client端也能够运行和存储对应的模型。For Challenges (2) 本文采用Adaptive Gate Learning Mechanism来自适应的得到Common Knowledge and personalization Knowledge（User-Level Personalization and User-Group-Level Personalization（具体采用类似LoRA方式的Personalized Adapter））的权重。
-
 3. [Personalized Item Representations in Federated Multimodal Recommendation (2024)](https://arxiv.org/pdf/2410.08478)
    - 本文提出了一个FedMR (Federated Multimodal Recommendation system)模型。***Contribution：*** 其在联邦学习的设置下将多模态和ID-based推荐系统进行无缝融合，同时其提出了Mixing Feature Fusion Module自适应的更改fusion策略。***Motivation：*** 主要在于现有的推荐系统，特别是在联邦学习设置下的推荐系统，大部分都关注与捕捉item ID-based feature，而忽略了item丰富的多模态信息，而item丰富的多模态信息可以帮助推荐系统处理cold-starts问题，泛化性问题等。***Implementation：*** 本质上FedMR是一个插件，其可以与现有的ID-based FedRec的模型进无缝融合，具体的其在server端设置FMs去处理得到item多模态Embedding，client在从server端进行download下来。Client端其通过设置fusion strategies（Sum，MLP and Gate）来融合多模态Embedding和ID-based Embedding。然后通过一个Router网络来根据每一个user分配动态的权重去融合通过不同fusion strategies得到的embedding，最终得到Final personalized item embedding，送入Prediction Function得到预测的结果。
+4. [Multifaceted User Modeling in Recommendation: A Federated Foundation Models Approach (2025)](https://arxiv.org/pdf/2412.16969)
+
+## 相关的集中式推荐系统算法
+
+1. [LLM-Powered User Simulator for Recommender System (2024)](https://arxiv.org/pdf/2412.16984)
+
+
 
 ## 相关的联邦学习算法
 
@@ -104,6 +112,31 @@
 2. [Efficient-FedRec: Efficient Federated Learning Framework for Privacy-Preserving News Recommendation (2021)](https://arxiv.org/pdf/2109.05446)
 3. [FedAttack: Effective and Covert Poisoning Attack on Federated Recommendation via Hard Sampling (2022)](https://dl.acm.org/doi/pdf/10.1145/3534678.3539119)
 4. [Multi‑center federated learning: clients clustering for better  personalization (2022)](https://link.springer.com/content/pdf/10.1007/s11280-022-01046-x.pdf)
+
+
+
+## 大模型的相关技术
+
+1. [Parameter-Efficient Fine-Tuning for Large Models: A Comprehensive Survey (2024)](https://arxiv.org/pdf/2403.14608)
+
+2. [A Survey of Hallucination in Large Foundation Models (2023)](https://arxiv.org/pdf/2309.05922)
+
+
+
+## 隐私保护和安全威胁技术
+
+### 隐私保护
+
+1. [Homomorphic Encryption (2018)](https://doi.org/10.1145/3214303)
+2. [Machine Unlearning (2020)](https://arxiv.org/pdf/1912.03817)
+3. [LDP (2021)](https://arxiv.org/pdf/2105.03941)
+4. [Privacy Rewrite(2023)](https://arxiv.org/pdf/2309.03057)
+
+### 安全威胁技术
+
+1. [Member Inference Attacks (2020)](https://arxiv.org/pdf/1812.00910)
+2. [Data Reconstruction Attacks (2021)](https://arxiv.org/pdf/2108.06910)
+3. [Poisoning Attacks (2020)](https://arxiv.org/pdf/2007.08432)
 
 
 
