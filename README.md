@@ -35,6 +35,7 @@
 5. [Navigating the Future of Federated Recommendation Systems with Foundation Models(2024)](https://arxiv.org/pdf/2406.00004)
    - 联邦推荐系统（FRS）和基础模型（FMs）的综述
      - 内容：（1）对FRS和FMs进行了definition和taxonomy；（2）讲述了FRS现有存在的问题（Client Model Update，Communication and Global Aggregation阶段）和将FMs与FRS结合起来可以如何解决此问题；（3）将FMs集成到FRS存在的挑战和解决方法；（4）还介绍了未来的研究方向和公共数据集等内容。
+
 6. [Federated Foundation Models: Privacy-Preserving and Collaborative Learning for Large Models (2024)](https://arxiv.org/pdf/2305.11414)
 7. [When Large Language Models Meet Personalization: Perspectives of Challenges and Opportunities (2024)](https://doi.org/10.1007/s11280-024-01276-1)
 
@@ -64,6 +65,11 @@
 1. [FedDCSR: Federated Cross-domain Sequential Recommendation via Disentangled Representation Learning (2024)](https://epubs.siam.org/doi/pdf/10.1137/1.9781611978032.62)
    - 本文提出了名称为FedDCSR的模型，一个新的联邦学习设定下的跨域顺序推荐框架。***Motivation：*** 现有的跨域序列推荐系统模型大部分是集中式的，其容易带来隐私泄露等问题。而现有的联邦跨域推荐系列模型没有考虑序列数据的异质性和其是sequential data的属性。***Contribution：*** 因此本文提出了FedDCSR模型来解决现有模型存在的问题。***Implementation：*** 具体的，提出了SRD，inter-intra domain sequence representation disentanglement method，和intra domain contrastive infomax strategy CIM方法。（1）其中SRD是通过设计一系列的损失函数：例如domain-shared representations和domain-exclusive representations应该要不同，聚合不同域的domain-shared representations应该和每一个域的domain-shared representations相似等；（2）intra domain contrastive infomax strategy CIM，是通过将输入Sequential Data进行随机打乱得到对应的增强后的数据，然后通过对比loss（构建正负对的方法）。
 
+#### Convergence
+
+1. [Efficient and Robust Regularized Federated Recommendation (2025)](https://arxiv.org/pdf/2411.01540)
+   - 本文提出了RFRec及其变体RFRecF模型。***Motivation：*** 现有的FedRec由于使用交替更新的方法（user特征向量仅在客户端上更新，item特征向量的梯度被聚合到服务器以进行item特征矩阵的更新），其存在如下的问题问题：（1）Non-convex 优化问题；（2）Vulnerability（脆弱）：因为；（3）Communication Inefficiency。 ***Contribution：*** （1）其核心的创新点在于将FedRec的问题reformulate成一个凸优化问题，使得FedRec可以得到global optimization；（2）同时提出local梯度下降（local GD）方法，即server仅仅只进行聚合操作，更新操作全部在client段进行，也就是说client上传给sever的是更新好的模型参数，而不是对应的梯度；（3）提出RFRecF变体提高模型的通信效率，本文称之为non-uniform SGD，具体的不是每一步client更新都上传到Server中。***Implementation：*** 通过对FedRec的优化公式加上对应的约束（惩罚），使得优化公式变成一个严格的凸优化问题。
+
 #### Personalized Federated Recommendation
 
 1. [Personalized Federated Learning: A Meta-Learning Approach (2020)](https://arxiv.org/pdf/2002.07948)
@@ -79,8 +85,6 @@
    - 本文提出了名称为Graph-Guided Personalization for Federated Recommendation（GPFedRec）方法。这是一种新型的聚合方式（FedAVG）的改进版本。***Contribution：*** 其提出了一种新型的聚合方式，其是基于user-relation graph来聚合。其核心点在于：如何在Federated Learning的架构下，构建user-relation graph并且不增加泄露user隐私的风险。***Motivation：*** 在集中式的推荐系统中，其他的工作已经证明将user-relation graph引入推荐系统可以提高系统的推荐正确率，但是如何在联邦学习的框架下得到user-relation graph，并且不损害user隐私。***Implementation：*** 通过对没一个client上传的item embedding进行cos相似度计算，进而得到user-relation graph。后续通过user-relation graph去引导item embedding聚合等。
 6. [Personalized Federated Collaborative Filtering: AVariational AutoEncoder Approach(2024)](https://arxiv.org/pdf/2408.08931)
    - 本文提出了一个新的personalized Federated Collaborative Filtering （FedCF） method, which incorporates a gating dual-encoder VAE, named FedDAE。***Contribution:*** 其提出了通过VAE去建模user item之间的复杂关系，而不是受限于user embedding and item embedding vector，进而能够捕捉更加复杂的非线性关系。***Motivation:*** 现有的大部分推荐系统模型都是基于矩阵分解的思路，由于矩阵分解思路只能捕捉模型的线性关系，无法捕捉非线性的复杂关系。虽然如今采用了Neural Collaborative Filtering (NCF)的方式来，但是仍然首先于item and user embedding vector的形式，同时现有的大部分NCF都rely on personalized item embedding，因此导致模型的泛化性能差。***Implementation***：我们通过构建dual-encoder VAE（一个用来捕捉global信息，一个用来捕捉local信息），然后通过gate网络来自适应的调节二者（global and local）的权重，同时还保证的模型的泛化性能。
-
-7. [Efficient and Robust Regularized Federated Recommendation (2024)](https://arxiv.org/pdf/2411.01540)
 
 ##### Cold-start Problems
 
