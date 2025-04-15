@@ -103,6 +103,7 @@
 3. [Personalized Item Representations in Federated Multimodal Recommendation (2024)](https://arxiv.org/pdf/2410.08478)
    - 本文提出了一个FedMR (Federated Multimodal Recommendation system)模型。***Contribution：*** 其在联邦学习的设置下将多模态和ID-based推荐系统进行无缝融合，同时其提出了Mixing Feature Fusion Module自适应的更改fusion策略。***Motivation：*** 主要在于现有的推荐系统，特别是在联邦学习设置下的推荐系统，大部分都关注与捕捉item ID-based feature，而忽略了item丰富的多模态信息，而item丰富的多模态信息可以帮助推荐系统处理cold-starts问题，泛化性问题等。***Implementation：*** 本质上FedMR是一个插件，其可以与现有的ID-based FedRec的模型进无缝融合，具体的其在server端设置FMs去处理得到item多模态Embedding，client在从server端进行download下来。Client端其通过设置fusion strategies（Sum，MLP and Gate）来融合多模态Embedding和ID-based Embedding。然后通过一个Router网络来根据每一个user分配动态的权重去融合通过不同fusion strategies得到的embedding，最终得到Final personalized item embedding，送入Prediction Function得到预测的结果。
 4. [Multifaceted User Modeling in Recommendation: A Federated Foundation Models Approach (2025)](https://arxiv.org/pdf/2412.16969)
+   - 本文提出了一个MRFF (Multifaceted user modeling in Recommendations with Federated Foundation models)的模型。其不同点在于其是从头开始训练对应的lightweight FM，这与普通的采用FMs的模型不同。***Contribution：*** 其提出了multifaceted user modeling mechanism，其允许从user-specific and group-specific的两个角度去建模user。***Motivation：*** 现有的FMs大部分都具有大量的参数量，无法在client端进行部署，同时如果要finetune对应的FMs需要大量的通信资源。同时naive FFMs为所有的user都共享一个model，这对于推荐系统中user的数据存在巨大的异质性，导致效果不好。***Implementation：*** 本文lightweight FM采用的就是随机初始化的Transformer架构，核心创新点在于其提出了Group Gating Network，通过对user进行分类将其分类到某一个group中，最终同一个group的user共用一个shared FFN（group-specific）；同时每一个user又会采用自己的独立的FFN（user-specific ）。
 
 ## 相关的集中式推荐系统算法
 
