@@ -103,11 +103,14 @@
 3. [Personalized Item Representations in Federated Multimodal Recommendation (2024)](https://arxiv.org/pdf/2410.08478)
    - 本文提出了一个FedMR (Federated Multimodal Recommendation system)模型。***Contribution：*** 其在联邦学习的设置下将多模态和ID-based推荐系统进行无缝融合，同时其提出了Mixing Feature Fusion Module自适应的更改fusion策略。***Motivation：*** 主要在于现有的推荐系统，特别是在联邦学习设置下的推荐系统，大部分都关注与捕捉item ID-based feature，而忽略了item丰富的多模态信息，而item丰富的多模态信息可以帮助推荐系统处理cold-starts问题，泛化性问题等。***Implementation：*** 本质上FedMR是一个插件，其可以与现有的ID-based FedRec的模型进无缝融合，具体的其在server端设置FMs去处理得到item多模态Embedding，client在从server端进行download下来。Client端其通过设置fusion strategies（Sum，MLP and Gate）来融合多模态Embedding和ID-based Embedding。然后通过一个Router网络来根据每一个user分配动态的权重去融合通过不同fusion strategies得到的embedding，最终得到Final personalized item embedding，送入Prediction Function得到预测的结果。
 4. [Multifaceted User Modeling in Recommendation: A Federated Foundation Models Approach (2025)](https://arxiv.org/pdf/2412.16969)
-   - 本文提出了一个MRFF (Multifaceted user modeling in Recommendations with Federated Foundation models)的模型。其不同点在于其是从头开始训练对应的lightweight FM，这与普通的采用FMs的模型不同。***Contribution：*** 其提出了multifaceted user modeling mechanism，其允许从user-specific and group-specific的两个角度去建模user。***Motivation：*** 现有的FMs大部分都具有大量的参数量，无法在client端进行部署，同时如果要finetune对应的FMs需要大量的通信资源。同时naive FFMs为所有的user都共享一个model，这对于推荐系统中user的数据存在巨大的异质性，导致效果不好。***Implementation：*** 本文lightweight FM采用的就是随机初始化的Transformer架构，核心创新点在于其提出了Group Gating Network，通过对user进行分类将其分类到某一个group中，最终同一个group的user共用一个shared FFN（group-specific）；同时每一个user又会采用自己的独立的FFN（user-specific ）。
+   - 本文提出了一个MRFF (Multifaceted user modeling in Recommendations with Federated Foundation models)的插件模型，其可以很好的与Transformer-based model进行结合。其不同点在于其是从头开始训练对应的lightweight FM，这与普通的采用FMs的模型不同。***Contribution：*** 其提出了multifaceted user modeling mechanism，其允许从user-specific and group-specific的两个角度去建模user。***Motivation：*** 现有的FMs大部分都具有大量的参数量，无法在client端进行部署，同时如果要finetune对应的FMs需要大量的通信资源。同时naive FFMs为所有的user都共享一个model，这对于推荐系统中user的数据存在巨大的异质性，导致效果不好。***Implementation：*** 本文lightweight FM采用的就是随机初始化的Transformer架构，核心创新点在于其提出了Group Gating Network，通过对user进行分类将其分类到某一个group中，最终同一个group的user共用一个shared FFN（group-specific）；同时每一个user又会采用自己的独立的FFN（user-specific ）。
+
 
 ## 相关的集中式推荐系统算法
 
 1. [LLM-Powered User Simulator for Recommender System (2024)](https://arxiv.org/pdf/2412.16984)
+   - 本文为RL-based的推荐系统提出了一个新的LLM-Powered User Simulator。***Motivation：*** 现有的User Simulator难以显式的建模user preferences；没有一个统一的framework来衡量user simulator生成的数据和真实的user taste的差距如何。***Contribution：*** 我们采用LLMs的强大的分析能力来显式的建模user做决定背后的原因。同时我们在5个公共的数据集上进行测试，其范围覆盖之广保证能够验证user simulator生成的数据能反映真实的user taste。***Implementation：*** 本文利用LLMs对item从客观和主观两个角度进行提取对应的keyword。然后集成三个模型：keywords matching模型，keywords语义相似度模型，数据驱动的推荐系统模型的结果，根据少数服从多数的原则来判断user对这个candidate item的action。
+
 
 
 
@@ -122,9 +125,12 @@
 
 ## 大模型的相关技术
 
-1. [Parameter-Efficient Fine-Tuning for Large Models: A Comprehensive Survey (2024)](https://arxiv.org/pdf/2403.14608)
+1. [A Survey of Hallucination in Large Foundation Models (2023)](https://arxiv.org/pdf/2309.05922)
+2. [Parameter-Efficient Fine-Tuning for Large Models: A Comprehensive Survey (2024)](https://arxiv.org/pdf/2403.14608)
+   - 本文详细的总结了现有的Parameter-Efficient Fine-Tuning（PEFT）方法。
+3. [Transformers without Normalization (2025)](https://arxiv.org/abs/2503.10622)
+   - 本文提出了一种Dynamic Tanh (DyT)方式，其能够基本以完全上位的形式代替Transformer中的Normalization层（LN or RMSNorm），同时DyT的训练和推理所需时间比LN or RMSNorm快很多。***Motivation：*** 本文通过实验发现Transformer类模型Norm层后的数据分布呈现“S”形状（层数越深就越类似），十分类似tanh。***Contribution：*** 证明了Transformer类模型确实可以不需要Normalization层。***Implementation：***  $DyT(x)=tanh(\alpha x)$，其中$\alpha$为可学习参数，通过实验发现其学习的其实就是Norm层中的$\frac{1}{std}$。DyT保留原始的Norm的层外层的“scaling” and “shifting”可学习参数。***Limitation：*** 现在暂时没办法代替简单模型类似RestNet中的BN层。
 
-2. [A Survey of Hallucination in Large Foundation Models (2023)](https://arxiv.org/pdf/2309.05922)
 
 
 
