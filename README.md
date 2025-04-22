@@ -127,7 +127,9 @@
 
 1. [A Survey of Hallucination in Large Foundation Models (2023)](https://arxiv.org/pdf/2309.05922)
 2. [Parameter-Efficient Fine-Tuning for Large Models: A Comprehensive Survey (2024)](https://arxiv.org/pdf/2403.14608)
-   - 本文详细的总结了现有的Parameter-Efficient Fine-Tuning（PEFT）方法。
+   - 本文详细的总结了现有的Parameter-Efficient Fine-Tuning（PEFT）方法。对PEFT方法进行了分类，并且讲解了一些PEFT方法设计思路。还介绍PEFT方法在具体的应用场景上的应用，最后讲了现有的系统设计上仍热存在的挑战。
+   - ***Remark：*** 这个是一个对PEFT方法十分全面的survey，可以帮助快速了解现有的PEFT方法。
+
 3. [Transformers without Normalization (2025)](https://arxiv.org/abs/2503.10622)
    - 本文提出了一种Dynamic Tanh (DyT)方式，其能够基本以完全上位的形式代替Transformer中的Normalization层（LN or RMSNorm），同时DyT的训练和推理所需时间比LN or RMSNorm快很多。***Motivation：*** 本文通过实验发现Transformer类模型Norm层后的数据分布呈现“S”形状（层数越深就越类似），十分类似tanh。***Contribution：*** 证明了Transformer类模型确实可以不需要Normalization层。***Implementation：***  $DyT(x)=tanh(\alpha x)$，其中$\alpha$为可学习参数，通过实验发现其学习的其实就是Norm层中的$\frac{1}{std}$。DyT保留原始的Norm的层外层的“scaling” and “shifting”可学习参数。***Limitation：*** 现在暂时没办法代替简单模型类似RestNet中的BN层。
 
