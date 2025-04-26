@@ -120,6 +120,9 @@
 2. [Efficient-FedRec: Efficient Federated Learning Framework for Privacy-Preserving News Recommendation (2021)](https://arxiv.org/pdf/2109.05446)
 3. [FedAttack: Effective and Covert Poisoning Attack on Federated Recommendation via Hard Sampling (2022)](https://dl.acm.org/doi/pdf/10.1145/3534678.3539119)
 4. [Multi‑center federated learning: clients clustering for better  personalization (2022)](https://link.springer.com/content/pdf/10.1007/s11280-022-01046-x.pdf)
+   - 本文主要为了解决FL中的Heterogeneity，non-IId的问题。 ***Motivation：*** 由于FL中不同的client数据可能是non-iid的，因此如果像vanilla FL一样对所有的client采用同一个global moddel，那么可能导致效果不好。***Contribution：*** 我们提出了对client进行cluster的方式，对于同一个类中的client共用一个global model，不同类采用不同的global model。这个是balance personalized knowledge和 shared knowledge的方式
+   - ***Remarks：*** （1）这个工作是Personalized Federated Learning的前身。（2）并且本文还说明了一个概念：具有相同功能的参数部分一般在不同模型的不同部分。因此基于FedAvg这种index-based的聚合or对齐机制，可能会减慢收敛速度。eg. A={A1,A2,A3}, B={B1,B2,B3}，FedAvg这种index-based聚合机制就是A1+B1，但是其实可能A1和B3功能更相似，因此需要采用function-based聚合机制。
+5. [Fedproto: Federated prototype learning across heterogeneous clients (2022)](https://ojs.aaai.org/index.php/AAAI/article/download/20819/20578)
 
 
 
@@ -127,7 +130,7 @@
 
 1. [A Survey of Hallucination in Large Foundation Models (2023)](https://arxiv.org/pdf/2309.05922)
 2. [Parameter-Efficient Fine-Tuning for Large Models: A Comprehensive Survey (2024)](https://arxiv.org/pdf/2403.14608)
-   - 本文详细的总结了现有的Parameter-Efficient Fine-Tuning（PEFT）方法。对PEFT方法进行了分类，并且讲解了一些PEFT方法设计思路。还介绍PEFT方法在具体的应用场景上的应用，最后讲了现有的系统设计上仍热存在的挑战。
+   - 本文详细的总结了现有的Parameter-Efficient Fine-Tuning（PEFT）方法。对PEFT方法进行了分类，并且讲解了一些PEFT方法设计思路。还介绍PEFT方法在具体的应用场景上的应用，最后讲了现有的系统设计上仍热存在的挑战，总结了未来的PEFT方法的潜在研究方向。
    - ***Remark：*** 这个是一个对PEFT方法十分全面的survey，可以帮助快速了解现有的PEFT方法。
 
 3. [Transformers without Normalization (2025)](https://arxiv.org/abs/2503.10622)
