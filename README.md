@@ -123,8 +123,10 @@
    - 本文主要为了解决FL中的Heterogeneity，non-IId的问题。 ***Motivation：*** 由于FL中不同的client数据可能是non-iid的，因此如果像vanilla FL一样对所有的client采用同一个global moddel，那么可能导致效果不好。***Contribution：*** 我们提出了对client进行cluster的方式，对于同一个类中的client共用一个global model，不同类采用不同的global model。这个是balance personalized knowledge和 shared knowledge的方式
    - ***Remarks：*** （1）这个工作是Personalized Federated Learning的前身。（2）并且本文还说明了一个概念：具有相同功能的参数部分一般在不同模型的不同部分。因此基于FedAvg这种index-based的聚合or对齐机制，可能会减慢收敛速度。eg. A={A1,A2,A3}, B={B1,B2,B3}，FedAvg这种index-based聚合机制就是A1+B1，但是其实可能A1和B3功能更相似，因此需要采用function-based聚合机制。
 5. [Fedproto: Federated prototype learning across heterogeneous clients (2022)](https://ojs.aaai.org/index.php/AAAI/article/download/20819/20578)
+   - 提出了prototype的average机制，解决了以往gradient-based or parameter-based无法解决的data or model异质性问题。
 
-
+6. [Federated learning with matched averaging](https://arxiv.org/pdf/2002.06440)
+   - 提出了Function-based average机制。
 
 ## 大模型的相关技术
 
