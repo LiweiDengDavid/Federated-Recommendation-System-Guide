@@ -123,7 +123,8 @@
    - 本文主要为了解决FL中的Heterogeneity，non-IId的问题。 ***Motivation：*** 由于FL中不同的client数据可能是non-iid的，因此如果像vanilla FL一样对所有的client采用同一个global moddel，那么可能导致效果不好。***Contribution：*** 我们提出了对client进行cluster的方式，对于同一个类中的client共用一个global model，不同类采用不同的global model。这个是balance personalized knowledge和 shared knowledge的方式
    - ***Remarks：*** （1）这个工作是Personalized Federated Learning的前身。（2）并且本文还说明了一个概念：具有相同功能的参数部分一般在不同模型的不同部分。因此基于FedAvg这种index-based的聚合or对齐机制，可能会减慢收敛速度。eg. A={A1,A2,A3}, B={B1,B2,B3}，FedAvg这种index-based聚合机制就是A1+B1，但是其实可能A1和B3功能更相似，因此需要采用function-based聚合机制。
 5. [Fedproto: Federated prototype learning across heterogeneous clients (2022)](https://ojs.aaai.org/index.php/AAAI/article/download/20819/20578)
-   - 提出了prototype的average机制，解决了以往gradient-based or parameter-based无法解决的data or model异质性问题。
+   - 本文主要提出了一种新的基于prototype的聚合机制。***Motivation：*** 由于以往所有的工作都是尝试解决model heterogeneity or data heterogeneity，但是没有一个工作尝试二者一起解决。***Contribution：*** 本文通过提出了基于prototype-based average机制，（1）其允许每一个client具有不同的model结构，输入输出结构；（2）同时其server不是存储一个global model，而仅仅存储global prototype，每一个client都会从server下载对应的global prototype，然后基于自己的local dataset进行finetune，来解决data heterogeneity的问题。
+
 
 6. [Federated learning with matched averaging](https://arxiv.org/pdf/2002.06440)
    - 提出了Function-based average机制。
@@ -146,8 +147,11 @@
 ### 隐私保护
 
 1. [Homomorphic Encryption (2018)](https://doi.org/10.1145/3214303)
-2. [Machine Unlearning (2020)](https://arxiv.org/pdf/1912.03817)
+   - ***Main Idea：*** 采用公钥和私钥来加密client上传到server中的数据，进而使得即使上传过程中被泄露，但是由于没有公钥还是无法解密数据，进而达到隐私保护的目的。***Disadvantages：*** 计算量大，需要耗时长。
+2. [Machine Unlearning (2020)](https://arxiv.org/pdf/1912.03817)‘
+   - ***Main Idea：*** 训练的时候采用隐私数据，但是训练完成后将隐私数据进行遗忘，来达到隐私保护的效果。***Disadvantages：*** 其还是需要将数据集中存储，仍然可能导致存储过程中的隐私泄露。
 3. [LDP (2021)](https://arxiv.org/pdf/2105.03941)
+   - ***Main Idea：*** 通过对client上传的数据进行加噪声（一般是均值为0，方差为预设的超参数的高斯噪声），来使得每一个client上传的数据都是不正确的，但是在server聚合后就可以消除大部分的噪声。***Disadvantages：*** 需要根据隐私保护粒度来调整对应的方差，同时可能会导致模型难训练，收敛速度慢，模型效果下降。***Advantages：*** 计算量小，速度快。
 4. [Privacy Rewrite(2023)](https://arxiv.org/pdf/2309.03057)
 
 ### 安全威胁技术
