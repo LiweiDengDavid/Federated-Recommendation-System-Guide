@@ -132,10 +132,11 @@
 ## 大模型的相关技术
 
 1. [A Survey of Hallucination in Large Foundation Models (2023)](https://arxiv.org/pdf/2309.05922)
+   - 本文详细的介绍了现有的技术来如何解决LLMs的Hallucination，既讲解了（1）通过Prompt Engineering的方式来缓解，具体的有RAG，Self Refinement and Prompt Tuning的方式；（2）通过修改model架构来缓解，具体的有引入新的解码策略，利用知识图谱的方式。通过新建立一个基于幻觉指标的损失函数和有监督的fine-tuning方式；
+
 2. [Parameter-Efficient Fine-Tuning for Large Models: A Comprehensive Survey (2024)](https://arxiv.org/pdf/2403.14608)
    - 本文详细的总结了现有的Parameter-Efficient Fine-Tuning（PEFT）方法。对PEFT方法进行了分类，并且讲解了一些PEFT方法设计思路。还介绍PEFT方法在具体的应用场景上的应用，最后讲了现有的系统设计上仍热存在的挑战，总结了未来的PEFT方法的潜在研究方向。
    - ***Remark：*** 这个是一个对PEFT方法十分全面的survey，可以帮助快速了解现有的PEFT方法。
-
 3. [Transformers without Normalization (2025)](https://arxiv.org/abs/2503.10622)
    - 本文提出了一种Dynamic Tanh (DyT)方式，其能够基本以完全上位的形式代替Transformer中的Normalization层（LN or RMSNorm），同时DyT的训练和推理所需时间比LN or RMSNorm快很多。***Motivation：*** 本文通过实验发现Transformer类模型Norm层后的数据分布呈现“S”形状（层数越深就越类似），十分类似tanh。***Contribution：*** 证明了Transformer类模型确实可以不需要Normalization层。***Implementation：***  $DyT(x)=tanh(\alpha x)$，其中$\alpha$为可学习参数，通过实验发现其学习的其实就是Norm层中的$\frac{1}{std}$。DyT保留原始的Norm的层外层的“scaling” and “shifting”可学习参数。***Limitation：*** 现在暂时没办法代替简单模型类似RestNet中的BN层。
 
@@ -148,17 +149,22 @@
 
 1. [Homomorphic Encryption (2018)](https://doi.org/10.1145/3214303)
    - ***Main Idea：*** 采用公钥和私钥来加密client上传到server中的数据，进而使得即使上传过程中被泄露，但是由于没有公钥还是无法解密数据，进而达到隐私保护的目的。***Disadvantages：*** 计算量大，需要耗时长。
+
 2. [Machine Unlearning (2020)](https://arxiv.org/pdf/1912.03817)‘
    - ***Main Idea：*** 训练的时候采用隐私数据，但是训练完成后将隐私数据进行遗忘，来达到隐私保护的效果。***Disadvantages：*** 其还是需要将数据集中存储，仍然可能导致存储过程中的隐私泄露。
+
 3. [LDP (2021)](https://arxiv.org/pdf/2105.03941)
    - ***Main Idea：*** 通过对client上传的数据进行加噪声（一般是均值为0，方差为预设的超参数的高斯噪声），来使得每一个client上传的数据都是不正确的，但是在server聚合后就可以消除大部分的噪声。***Disadvantages：*** 需要根据隐私保护粒度来调整对应的方差，同时可能会导致模型难训练，收敛速度慢，模型效果下降。***Advantages：*** 计算量小，速度快。
+
 4. [Privacy Rewrite(2023)](https://arxiv.org/pdf/2309.03057)
 
 ### 安全威胁技术
 
-1. [Member Inference Attacks (2020)](https://arxiv.org/pdf/1812.00910)
-2. [Data Reconstruction Attacks (2021)](https://arxiv.org/pdf/2108.06910)
-3. [Poisoning Attacks (2020)](https://arxiv.org/pdf/2007.08432)
+1. [Deep Leakage from Gradients (2019)](https://proceedings.neurips.cc/paper/2019/file/60a6c4002cc7b29142def8871531281a-Paper.pdf)
+   - 本文章说明了FL中即使是上传梯度也有可能会泄露隐私，因此引出了隐私保护的相关技术。
+2. [Member Inference Attacks (2020)](https://arxiv.org/pdf/1812.00910)
+3. [Data Reconstruction Attacks (2021)](https://arxiv.org/pdf/2108.06910)
+4. [Poisoning Attacks (2020)](https://arxiv.org/pdf/2007.08432)
 
 
 
