@@ -35,9 +35,11 @@
 5. [Navigating the Future of Federated Recommendation Systems with Foundation Models(2024)](https://arxiv.org/pdf/2406.00004)
    - 联邦推荐系统（FRS）和基础模型（FMs）的综述
      - 内容：（1）对FRS和FMs进行了definition和taxonomy；（2）讲述了FRS现有存在的问题（Client Model Update，Communication and Global Aggregation阶段）和将FMs与FRS结合起来可以如何解决此问题；（3）将FMs集成到FRS存在的挑战和解决方法；（4）还介绍了未来的研究方向和公共数据集等内容。
-
 6. [Federated Foundation Models: Privacy-Preserving and Collaborative Learning for Large Models (2024)](https://arxiv.org/pdf/2305.11414)
 7. [When Large Language Models Meet Personalization: Perspectives of Challenges and Opportunities (2024)](https://doi.org/10.1007/s11280-024-01276-1)
+8. [Personalized Recommendation Models in Federated Settings: A Survey (2025)](https://arxiv.org/pdf/2504.07101?)
+   - 本文全面的阐述了在FedRec种的personalized modeling。
+
 
 ### 联邦推荐系统的算法
 
@@ -131,13 +133,15 @@
 
 ## 大模型的相关技术
 
-1. [A Survey of Hallucination in Large Foundation Models (2023)](https://arxiv.org/pdf/2309.05922)
-   - 本文详细的介绍了现有的技术来如何解决LLMs的Hallucination，既讲解了（1）通过Prompt Engineering的方式来缓解，具体的有RAG，Self Refinement and Prompt Tuning的方式；（2）通过修改model架构来缓解，具体的有引入新的解码策略，利用知识图谱的方式。通过新建立一个基于幻觉指标的损失函数和有监督的fine-tuning方式；
+1. [Test-Time Training with Self-Supervision for Generalization under Distribution Shifts (2020)](https://proceedings.mlr.press/v119/sun20b/sun20b.pdf)
+   - 提出了TTT框架，这个是最新的LLMs有运用的技术。
 
-2. [Parameter-Efficient Fine-Tuning for Large Models: A Comprehensive Survey (2024)](https://arxiv.org/pdf/2403.14608)
+2. [A Survey of Hallucination in Large Foundation Models (2023)](https://arxiv.org/pdf/2309.05922)
+   - 本文详细的介绍了现有的技术来如何解决LLMs的Hallucination，既讲解了（1）通过Prompt Engineering的方式来缓解，具体的有RAG，Self Refinement and Prompt Tuning的方式；（2）通过修改model架构来缓解，具体的有引入新的解码策略，利用知识图谱的方式。通过新建立一个基于幻觉指标的损失函数和有监督的fine-tuning方式；
+3. [Parameter-Efficient Fine-Tuning for Large Models: A Comprehensive Survey (2024)](https://arxiv.org/pdf/2403.14608)
    - 本文详细的总结了现有的Parameter-Efficient Fine-Tuning（PEFT）方法。对PEFT方法进行了分类，并且讲解了一些PEFT方法设计思路。还介绍PEFT方法在具体的应用场景上的应用，最后讲了现有的系统设计上仍热存在的挑战，总结了未来的PEFT方法的潜在研究方向。
    - ***Remark：*** 这个是一个对PEFT方法十分全面的survey，可以帮助快速了解现有的PEFT方法。
-3. [Transformers without Normalization (2025)](https://arxiv.org/abs/2503.10622)
+4. [Transformers without Normalization (2025)](https://arxiv.org/abs/2503.10622)
    - 本文提出了一种Dynamic Tanh (DyT)方式，其能够基本以完全上位的形式代替Transformer中的Normalization层（LN or RMSNorm），同时DyT的训练和推理所需时间比LN or RMSNorm快很多。***Motivation：*** 本文通过实验发现Transformer类模型Norm层后的数据分布呈现“S”形状（层数越深就越类似），十分类似tanh。***Contribution：*** 证明了Transformer类模型确实可以不需要Normalization层。***Implementation：***  $DyT(x)=tanh(\alpha x)$，其中$\alpha$为可学习参数，通过实验发现其学习的其实就是Norm层中的$\frac{1}{std}$。DyT保留原始的Norm的层外层的“scaling” and “shifting”可学习参数。***Limitation：*** 现在暂时没办法代替简单模型类似RestNet中的BN层。
 
 
@@ -190,8 +194,3 @@
    - 视频：[凸优化书本作者斯坦福公开课](https://www.youtube.com/watch?v=1menqhfNzzo&list=PLoROMvodv4rMJqxxviPa4AmDClvcbHi6h)
 
    
-
-
-
-
-
