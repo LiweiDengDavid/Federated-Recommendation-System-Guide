@@ -38,7 +38,10 @@
 6. [Federated Foundation Models: Privacy-Preserving and Collaborative Learning for Large Models (2024)](https://arxiv.org/pdf/2305.11414)
 7. [When Large Language Models Meet Personalization: Perspectives of Challenges and Opportunities (2024)](https://doi.org/10.1007/s11280-024-01276-1)
 8. [Personalized Recommendation Models in Federated Settings: A Survey (2025)](https://arxiv.org/pdf/2504.07101?)
-   - 本文全面的阐述了在FedRec种的personalized modeling。
+   - 本文全面的阐述了在FedRecSys中的personalized modeling。介绍了现有的推荐系统从模型层面的演进，从任务（or 场景）方面的演进。并且还说了联邦学习技术可以从安全性，鲁棒性和有效性方面增强效果。进而讲解了Personalization Modeling如今的进展，并且说了相应的挑战和解决方法，还总结了未来的研究方向。
+9. [Learn to Preserve Personality: Federated Foundation Models in Recommendations (2025)](http://arxiv.org/abs/2506.11563)
+   - 本文全面的阐述了Federated Learning下的FM模型如何在建模Personality和against 信息泄露，以往的所有文章都没有关注在聚合时候如何preserve personality in 安全的方式。本文主要讲了两个方面：（1）如何在FM提供的泛化性和个性化中权衡；（2）如何设计让FFM主动的学习去preserve personality。
+
 
 
 ### 联邦推荐系统的算法
@@ -101,7 +104,7 @@
 1. [Federated Recommendation via Hybrid Retrieval Augmented Generation (2024)](https://arxiv.org/pdf/2403.04256)
    - 本文提出了一个名称为GPTFedRec的联邦推荐系统模型。***Contribution：*** 本文是第一个在联邦推荐系统中使用RAG和LLMs的方法。***Motivation：*** 因为传统的方法无法很好的解决cold-start问题，并且LLMs存在幻觉和需要大量的计算时间，因此本文希望能够在利用LLMs的强大的zero-shot和预训练的知识的能力来解决cold-start问题，同时希望缓解LLMs存在幻觉的问题。***Implementation：*** 分成两个阶段，阶段1：采用ID-based Retriever和text-baesd Retriever来生成item candidates。阶段2：根据阶段1生成的candidates送入LLMs让其进行re-rank。这么做可以减少LLMs的幻觉的问题，同时可以不用对LLMs进行finetune减少很多的计算资源消耗。同时还能利用LLMs强大的zero-shot和对现实世界的理解。
 2. [Federated Adaptation for Foundation Model-based Recommendations (2024)](https://arxiv.org/pdf/2405.04840)
-   - 本文提出了一个Federated recommendation with Personalized Adapter (FedPA)的模型。***Contribution：*** 其是在联邦学习设置下第一个将推荐系统和Foundation Model结合起来的模型。***Motivation：*** 由于Foundation Model (FM) 是在真实世界的大数据集中pre-train来的，因此其内部包含有common knowledge，这个对于Recommendation System来说是重要的。但是将FM与推荐系统结合起来，特别是在联邦学习的设置下，具有以下两个**Challenges**：（1）client端计算资源和存储空间有限，因此常见的FM没办法在Client端部署。（2）如何将FM中的common knowledge和personalization knowledge合理融合起来。***Implementation：*** For Challengs (1) 本文采用知识蒸馏knowledge distillation (KD)方法将FM蒸馏出一个小模型进行使得client端也能够运行和存储对应的模型。For Challenges (2) 本文采用Adaptive Gate Learning Mechanism来自适应的得到Common Knowledge and personalization Knowledge（User-Level Personalization and User-Group-Level Personalization（具体采用类似LoRA方式的Personalized Adapter））的权重。
+   - 本文提出了一个Federated recommendation with Personalized Adapter (FedPA)的模型。***Contribution：*** 其是在联邦学习设置下第一个将推荐系统和Foundation Model结合起来的模型。***Motivation：*** 由于Foundation Model (FM) 是在真实世界的大数据集中pre-train来的，因此其内部包含有common knowledge，这个对于Recommendation System来说是重要的。但是将FM与推荐系统结合起来，特别是在联邦学习的设置下，具有以下两个***Challenges：*** （1）client端计算资源和存储空间有限，因此常见的FM没办法在Client端部署。（2）如何将FM中的common knowledge和personalization knowledge合理融合起来。***Implementation：*** For Challengs (1) 本文采用知识蒸馏knowledge distillation (KD)方法将FM蒸馏出一个小模型进行使得client端也能够运行和存储对应的模型。For Challenges (2) 本文采用Adaptive Gate Learning Mechanism来自适应的得到Common Knowledge and personalization Knowledge（User-Level Personalization and User-Group-Level Personalization（具体采用类似LoRA方式的Personalized Adapter））的融合权重。
 3. [Personalized Item Representations in Federated Multimodal Recommendation (2024)](https://arxiv.org/pdf/2410.08478)
    - 本文提出了一个FedMR (Federated Multimodal Recommendation system)模型。***Contribution：*** 其在联邦学习的设置下将多模态和ID-based推荐系统进行无缝融合，同时其提出了Mixing Feature Fusion Module自适应的更改fusion策略。***Motivation：*** 主要在于现有的推荐系统，特别是在联邦学习设置下的推荐系统，大部分都关注与捕捉item ID-based feature，而忽略了item丰富的多模态信息，而item丰富的多模态信息可以帮助推荐系统处理cold-starts问题，泛化性问题等。***Implementation：*** 本质上FedMR是一个插件，其可以与现有的ID-based FedRec的模型进无缝融合，具体的其在server端设置FMs去处理得到item多模态Embedding，client在从server端进行download下来。Client端其通过设置fusion strategies（Sum，MLP and Gate）来融合多模态Embedding和ID-based Embedding。然后通过一个Router网络来根据每一个user分配动态的权重去融合通过不同fusion strategies得到的embedding，最终得到Final personalized item embedding，送入Prediction Function得到预测的结果。
 4. [Multifaceted User Modeling in Recommendation: A Federated Foundation Models Approach (2025)](https://arxiv.org/pdf/2412.16969)
@@ -112,6 +115,9 @@
 
 1. [LLM-Powered User Simulator for Recommender System (2024)](https://arxiv.org/pdf/2412.16984)
    - 本文为RL-based的推荐系统提出了一个新的LLM-Powered User Simulator。***Motivation：*** 现有的User Simulator难以显式的建模user preferences；没有一个统一的framework来衡量user simulator生成的数据和真实的user taste的差距如何。***Contribution：*** 我们采用LLMs的强大的分析能力来显式的建模user做决定背后的原因。同时我们在5个公共的数据集上进行测试，其范围覆盖之广保证能够验证user simulator生成的数据能反映真实的user taste。***Implementation：*** 本文利用LLMs对item从客观和主观两个角度进行提取对应的keyword。然后集成三个模型：keywords matching模型，keywords语义相似度模型，数据驱动的推荐系统模型的结果，根据少数服从多数的原则来判断user对这个candidate item的action。
+2. [OneRec: Unifying Retrieve and Rank with Generative Recommender and Preference Alignment (2025)](http://arxiv.org/abs/2502.18965)
+   - 本文提出了名称为OneRec的模型。***Motivation：*** 现有的推荐系统大部分都是级联结构（分成三个阶段：召回，粗排和精排），不同阶段间是独立的无交互的，这不利于提高推荐系统的正确率。***Contribution：*** （1）本文是第一个提出一阶段的端到端的生成式模型；（2）并且第一个定义了session-wise generative tasks的工作。（3）同时我们还提出了通过Reward Model来模拟User feedback来实现direct preference optimization的方法。***Implementation：*** （1）本文的框架是Encoder-Decoder框架（基本与Transformer中的Encoder和Decoder机构类似），Encoder是以Attention和Feed Forward模块构成来编码历史的user historical behavior。Decoder也是以Attention和Feed Forward模块构成，受到Scaling Laws的启发，Feed Forward中采用MoE的架构来完成。（2）Session-wise List Generation task：Decoder生成的结果一起作为Session-Wise任务的输出。这里的训练方式为Next Token Prediction。（3）Direct Preference Optimization (DPO)：该策略在NLP领域十分常见，其是通过人类的标注Preference数据来实现的，但是由于在推荐系统领域user-item interaction data十分稀疏，因此需要一个Reward model来评判该user对于该item是否是偏好的。因此该阶段分成两个部分：Training Reward Model and Iterative Preference Alignment。①Training Reward Model就是根据用户的交互历史来预测该用户对于该item的打分；② Iterative Preference Alignment：根据Reward Model得到user最喜欢和最不喜欢的item将其组成item pair，采用DPO Loss来进一步优化模型：当前时刻的模型生成最喜欢item的概率要大于上一时刻生成最喜欢item的概率，同理当前时刻的模型生成最不喜欢item的概率要小于上一时刻生成最不喜欢item的概率。
+
 
 
 
